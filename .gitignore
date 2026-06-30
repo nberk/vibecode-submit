@@ -1,0 +1,5 @@
+# Generated submission drafts (each user's own output, not part of the skill)
+vibecode-submission-*/
+
+# macOS
+.DS_Store
