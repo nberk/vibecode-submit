@@ -69,8 +69,8 @@ Fields that code can't know (Help Needed, Video URL) are asked, not guessed.
 
 - Claude Code
 - `git` (to read the repo)
-- For screenshots: the Claude in Chrome browser connection, or a project that
-  runs locally with `npm`/`bun`
+- For screenshots: Google Chrome. It's used headlessly (no setup needed); the
+  Claude in Chrome extension is used instead when connected, for interactive capture.
 
 ## Keeping it current
 

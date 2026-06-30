@@ -5,7 +5,7 @@ license: MIT
 user_invocable: true
 metadata:
   author: nberk
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # vibecode.law Submission Drafter
@@ -78,30 +78,47 @@ code does not support):
   with the user.
 - **Source Code Availability** — `Available` + the GitHub URL (that's the whole point).
 
-### Step 4 — Capture Gallery screenshots (demo URL first, local fallback)
+### Step 4 — Capture Gallery screenshots
 Target spec: **up to 10 images, min 400×225px (16:9), max 4MB each.** Aim for
-4–6 strong shots, not 10 filler ones.
+4–6 strong shots, not 10 filler ones. Capture at a 16:9 window (1600×900).
 
-Load the browser tools in one call:
-`ToolSearch select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__resize_window,mcp__claude-in-chrome__read_page`
+**Pick a capture engine:**
 
-**A. If a demo URL exists:** open a new tab, `resize_window` to a 16:9 viewport
-(e.g. 1600×900), navigate, and screenshot the landing view plus 2–5 key screens
-(click into the main flows first so the shots show the product working, not an
-empty state). Save each into `gallery/`.
+- **Preferred — Claude in Chrome extension** (interactive: can click into flows to
+  reach screens that need a search or navigation). Load it in one call:
+  `ToolSearch select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__resize_window`
+  Call `tabs_context_mcp` first. If it reports the extension is **not connected**,
+  switch to the fallback rather than asking the user to set it up.
+- **Fallback — headless Chrome CLI** (no extension, fully autonomous; captures
+  above-the-fold for any directly-navigable URL):
+  ```bash
+  CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+    --window-size=1600,900 --virtual-time-budget=12000 --screenshot="gallery/01.png" "<url>"
+  ```
+  `--virtual-time-budget` is essential: it lets JS hydrate and fetch before the
+  shot, so you capture real content, not an empty shell. For a screen that needs
+  interaction (a specific record/town), navigate **directly** to its URL
+  (e.g. `/{state}/{slug}` found in the app's data/index) instead of driving a form.
 
-**B. No demo URL → run it locally:** detect the dev command from `package.json`
-`scripts` (`bun run dev` / `npm run dev`) or the framework default; start it in
-the background; detect the port (parse the startup log, else probe 3000 / 4321 /
-5173 / 8080); then capture as in A against `http://localhost:<port>`. Stop the
-server when done. If it binds IPv6-only and the browser can't connect, retry with
-the host bound to `0.0.0.0`. If it will not build or run, go to C.
+**Sources, in order:**
+1. The passed or discovered **demo URL**.
+2. **Run it locally** if there's no demo: detect the dev command from
+   `package.json` scripts (`bun run dev` / `npm run dev`) or the framework default,
+   start it in the background, detect the port (parse the log, else probe
+   3000 / 4321 / 5173 / 8080), capture `http://localhost:<port>`, then stop the
+   server. If it binds IPv6-only and the browser can't connect, rebind to `0.0.0.0`.
+3. **No web UI (CLI / skill / library):** the product surface is the terminal, so
+   capture a clean terminal-style screenshot of the tool running with its real
+   command and real output (or a labeled diagram of its flow). Do not fake a web UI.
+4. **Nothing runnable:** skip the Gallery and record in the draft that screenshots
+   must be added by hand, and why.
 
-**C. Neither works:** skip the Gallery. Record in the draft that screenshots must
-be added manually, and why.
+**Always verify:** view each captured image and confirm it shows hydrated content,
+not a blank frame or an error page. Re-capture (longer `--virtual-time-budget`) if blank.
 
 After capture, normalize with macOS `sips`: ensure each is ≥400×225, convert to
-PNG/JPEG, and downscale anything over 4MB. Drop any shot smaller than the minimum.
+PNG/JPEG, and downscale anything over 4MB. Drop any shot below the minimum.
 
 ### Step 5 — Logo (optional)
 If Step 2 found a square-ish logo/icon asset, copy it to the output folder and
