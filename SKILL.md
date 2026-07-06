@@ -22,18 +22,19 @@ This file is the whole workflow, written as plain instructions. It targets
 
 ## Usage
 
-```
-/vibecode-submit <github-url> [demo-url]
-```
+Two inputs, however your agent is told to run this file:
 
 - `github-url` (required): e.g. `https://github.com/owner/repo`. If missing, ask for it.
 - `demo-url` (optional): the live, interactive demo. If missing, the skill tries
   to discover one, then falls back to running the repo locally.
 
-`/vibecode-submit` is Claude Code's slash-command syntax for loading this file.
-On any other agent, just point it at this file and give it the same two
-arguments in plain language, e.g. "Follow SKILL.md to draft a vibecode.law
-submission for `<github-url>`." The workflow below is identical either way.
+Claude Code users can invoke this as a slash command:
+```
+/vibecode-submit <github-url> [demo-url]
+```
+On any other agent, just point it at this file in plain language, e.g. "Follow
+SKILL.md to draft a vibecode.law submission for `<github-url>`." The workflow
+below is identical either way.
 
 ## Non-negotiables (read first)
 

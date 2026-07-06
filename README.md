@@ -1,9 +1,8 @@
 # vibecode-submit
 
-An agent skill, built first for [Claude Code](https://claude.com/claude-code)
-and written as plain markdown so **Codex, Cursor, or any other coding agent**
-can run it too, that turns a GitHub link into a ready-to-paste
-[vibecode.law](https://vibecode.law) project submission.
+An agent skill, written as plain markdown so **[Claude Code](https://claude.com/claude-code),
+Codex, Cursor, or any other coding agent** can run it, that turns a GitHub link
+into a ready-to-paste [vibecode.law](https://vibecode.law) project submission.
 
 Point it at a repo and it drafts every field on the "Share Your Project" form,
 captures real product screenshots, and hands you a folder you copy straight into
@@ -11,49 +10,41 @@ the form. You review and tweak; it never submits for you.
 
 ## Install
 
-**With Claude Code:** add this skill to your personal skills folder. Pick
-whichever is easier:
+There's nothing to install in the usual sense — `SKILL.md` is the entire
+workflow, written as plain instructions any coding agent can read and follow.
 
-**Option A — clone it (if you use git):**
+1. Clone this repo, or download the ZIP from the GitHub page (**Code → Download ZIP**):
+   ```bash
+   git clone https://github.com/nberk/vibecode-submit
+   ```
+2. Tell your coding agent to follow it:
+   > Follow the instructions in `SKILL.md` to draft a vibecode.law submission
+   > for `<github-url>`.
+
+That's the whole install for Codex, Cursor, or any other agent. **Claude Code**
+users have one extra option: dropping the folder into `~/.claude/skills/`
+registers it as a native skill, so `/vibecode-submit <github-url>` works as a
+shortcut for the same instructions —
 
 ```bash
 git clone https://github.com/nberk/vibecode-submit ~/.claude/skills/vibecode-submit
 ```
 
-**Option B — download the ZIP (no git needed):**
-
-1. On the GitHub page, click **Code → Download ZIP**.
-2. Unzip it. You'll get a folder named `vibecode-submit` (or `vibecode-submit-main`; rename it to `vibecode-submit`).
-3. Move that folder into `~/.claude/skills/`. If the folder doesn't exist, create it:
-   ```bash
-   mkdir -p ~/.claude/skills
-   ```
-
-**Verify:** open Claude Code and type `/vibecode-submit`. It should appear in the
-list. (You can also just ask Claude: "draft a vibecode.law submission for
-`<github-url>`".)
-
-**With Codex, Cursor, or any other coding agent:** no install step. Clone or
-open this repo, then tell your agent:
-
-> Follow the instructions in `SKILL.md` to draft a vibecode.law submission for
-> `<github-url>`.
-
-`SKILL.md` is self-contained — it doesn't depend on any Claude-Code-specific
-feature. The one optional exception (the Claude in Chrome extension in Step 4)
-is skipped automatically in favor of a plain headless-Chrome command when it
-isn't available.
+— then verify with `/vibecode-submit` in Claude Code. Purely a convenience;
+the workflow followed is identical either way.
 
 ## Use
 
-**Claude Code:**
+Tell your agent to follow `SKILL.md`, passing a GitHub URL (and, optionally, a
+demo URL):
+
+> Follow SKILL.md to draft a vibecode.law submission for `https://github.com/owner/repo`.
+
+Claude Code users can shortcut this with the slash command:
 ```
 /vibecode-submit https://github.com/owner/repo
 /vibecode-submit https://github.com/owner/repo https://your-live-demo.com
 ```
-
-**Any other agent:** point it at `SKILL.md` and give it the same two arguments
-in plain language.
 
 If you don't pass a demo URL, the skill tries to find one, and falls back to
 running the project locally to capture screenshots.
@@ -68,7 +59,7 @@ A folder named `vibecode-submission-<owner>-<repo>/` containing:
 - **`gallery/`** — captured product screenshots, sized to the form's spec.
 - a **logo** image if one was found in the repo.
 
-## How it works (and why it's a skill)
+## How it works
 
 The three hard parts (read a repo, write the marketing copy, capture
 screenshots) are all things most coding agents can already do, so a plain
