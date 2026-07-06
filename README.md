@@ -1,7 +1,9 @@
 # vibecode-submit
 
-A [Claude Code](https://claude.com/claude-code) skill that turns a GitHub link
-into a ready-to-paste [vibecode.law](https://vibecode.law) project submission.
+An agent skill, built first for [Claude Code](https://claude.com/claude-code)
+and written as plain markdown so **Codex, Cursor, or any other coding agent**
+can run it too, that turns a GitHub link into a ready-to-paste
+[vibecode.law](https://vibecode.law) project submission.
 
 Point it at a repo and it drafts every field on the "Share Your Project" form,
 captures real product screenshots, and hands you a folder you copy straight into
@@ -9,8 +11,8 @@ the form. You review and tweak; it never submits for you.
 
 ## Install
 
-You need Claude Code installed first. Then add this skill to your personal skills
-folder. Pick whichever is easier:
+**With Claude Code:** add this skill to your personal skills folder. Pick
+whichever is easier:
 
 **Option A — clone it (if you use git):**
 
@@ -31,12 +33,27 @@ git clone https://github.com/nberk/vibecode-submit ~/.claude/skills/vibecode-sub
 list. (You can also just ask Claude: "draft a vibecode.law submission for
 `<github-url>`".)
 
+**With Codex, Cursor, or any other coding agent:** no install step. Clone or
+open this repo, then tell your agent:
+
+> Follow the instructions in `SKILL.md` to draft a vibecode.law submission for
+> `<github-url>`.
+
+`SKILL.md` is self-contained — it doesn't depend on any Claude-Code-specific
+feature. The one optional exception (the Claude in Chrome extension in Step 4)
+is skipped automatically in favor of a plain headless-Chrome command when it
+isn't available.
+
 ## Use
 
+**Claude Code:**
 ```
 /vibecode-submit https://github.com/owner/repo
 /vibecode-submit https://github.com/owner/repo https://your-live-demo.com
 ```
+
+**Any other agent:** point it at `SKILL.md` and give it the same two arguments
+in plain language.
 
 If you don't pass a demo URL, the skill tries to find one, and falls back to
 running the project locally to capture screenshots.
@@ -54,8 +71,9 @@ A folder named `vibecode-submission-<owner>-<repo>/` containing:
 ## How it works (and why it's a skill)
 
 The three hard parts (read a repo, write the marketing copy, capture
-screenshots) are all things Claude Code already does, so a skill is the least
-code and needs no servers or API keys. Two principles shape it:
+screenshots) are all things most coding agents can already do, so a plain
+markdown workflow is the least code and needs no servers, API keys, or
+agent-specific plumbing. Two principles shape it:
 
 - **Screenshots are captured, never generated.** Real submissions need real
   images, so it captures from your live demo or a local dev server, and abstains
@@ -67,10 +85,12 @@ Fields that code can't know (Help Needed, Video URL) are asked, not guessed.
 
 ## Requirements
 
-- Claude Code
+- A coding agent that can read files, clone a repo, and run shell commands —
+  Claude Code, Codex, Cursor, or similar.
 - `git` (to read the repo)
-- For screenshots: Google Chrome. It's used headlessly (no setup needed); the
-  Claude in Chrome extension is used instead when connected, for interactive capture.
+- For screenshots: Google Chrome. It's used headlessly (no setup needed) on any
+  agent; on Claude Code with the Claude in Chrome extension connected, that's
+  used instead for interactive capture.
 
 ## Keeping it current
 

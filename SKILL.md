@@ -16,6 +16,10 @@ demo (or a local dev server), and the few subjective fields collected from the
 user. Output is a folder the user copies into the vibecode.law "Share Your
 Project" form.
 
+This file is the whole workflow, written as plain instructions. It targets
+**any coding agent that can read files, clone a repo, and run shell commands**
+— Claude Code, Codex, Cursor, or otherwise — not just one platform.
+
 ## Usage
 
 ```
@@ -25,6 +29,11 @@ Project" form.
 - `github-url` (required): e.g. `https://github.com/owner/repo`. If missing, ask for it.
 - `demo-url` (optional): the live, interactive demo. If missing, the skill tries
   to discover one, then falls back to running the repo locally.
+
+`/vibecode-submit` is Claude Code's slash-command syntax for loading this file.
+On any other agent, just point it at this file and give it the same two
+arguments in plain language, e.g. "Follow SKILL.md to draft a vibecode.law
+submission for `<github-url>`." The workflow below is identical either way.
 
 ## Non-negotiables (read first)
 
@@ -84,13 +93,15 @@ Target spec: **up to 10 images, min 400×225px (16:9), max 4MB each.** Aim for
 
 **Pick a capture engine:**
 
-- **Preferred — Claude in Chrome extension** (interactive: can click into flows to
-  reach screens that need a search or navigation). Load it in one call:
+- **Preferred, Claude Code only — Claude in Chrome extension** (interactive: can
+  click into flows to reach screens that need a search or navigation). Load it
+  in one call:
   `ToolSearch select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__resize_window`
   Call `tabs_context_mcp` first. If it reports the extension is **not connected**,
-  switch to the fallback rather than asking the user to set it up.
-- **Fallback — headless Chrome CLI** (no extension, fully autonomous; captures
-  above-the-fold for any directly-navigable URL):
+  or this tool doesn't exist on your agent, switch to the fallback below rather
+  than asking the user to set it up.
+- **Fallback, works on any agent — headless Chrome CLI** (no extension, fully
+  autonomous; captures above-the-fold for any directly-navigable URL):
   ```bash
   CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   "$CHROME" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
