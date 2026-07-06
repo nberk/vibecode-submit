@@ -47,7 +47,7 @@ A folder named `vibecode-submission-<owner>-<repo>/` containing:
 
 - **`draft.md`** — every form field filled in, ready to copy: title, tagline
   (5 options to choose from), about, key features, practice-area tags, demo and
-  source links, plus a checklist of the manual steps.
+  source links.
 - **`gallery/`** — captured product screenshots, sized to the form's spec.
 - a **logo** image if one was found in the repo.
 

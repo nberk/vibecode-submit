@@ -132,10 +132,8 @@ These can't be drafted from code. Ask the user:
 
 ### Step 7 — Write the output
 Write `vibecode-submission-<owner>-<repo>/draft.md` with one clearly-labeled
-section per form field (values ready to copy), a final **Manual steps** checklist
-(upload `gallery/` images, set the practice-area chips, paste each field, no
-auto-submit), and a note that all copy is an AI first draft to verify. Point the
-user at the folder.
+section per form field (values ready to copy) and a note that all copy is an AI
+first draft to verify. Point the user at the folder.
 
 ## Reference
 
